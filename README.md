@@ -58,7 +58,7 @@ Would result in the following module/class hierarchy being easyloadable:
 
 Easyload Configuration
 ----------------------
-When a class or module includes {Easyload}, the 
-{EasyloadSingletonExtensions} module is mixed into that class or module's singleton methods, 
-providing the easyload API.  See {EasyloadSingletonExtensions} for a reference of what
-configuration can be performed on an easyloaded class or module.
+When a class or module includes `Easyload`, the 
+`Easyload::SingletonExtensions` module is mixed into that class or module's singleton methods, 
+providing the easyload API.  See [`Easyload::SingletonExtensions`](http://rdoc.info/github/nevir/easyload/master/Easyload/SingletonExtensions)
+for a reference of what configuration can be performed on an easyloaded class or module.
