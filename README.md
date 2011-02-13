@@ -21,39 +21,39 @@ root.  From that root, and the search path that it defines, all child constants 
 according to your directory structure.
 
 For example, with a directory structure of:
-  lib/
-    my_easyloaded_module.rb
-    my_easyloaded_module/
-      child_module.rb
-      child_module/
-        leafy.rb
-      node.rb
+    lib/ 
+      my_easyloaded_module.rb
+      my_easyloaded_module/
+        child_module.rb
+        child_module/
+          leafy.rb
+        node.rb
 
 +lib/my_easyloaded_module.rb+:
-  module MyEasyloadedModule
-    import Easyload
-  end
+    module MyEasyloadedModule
+      import Easyload
+    end
 
 +lib/my_easyloaded_module/child_module.rb+:
-  module ChildModule
-    ... 
-  end
+    module ChildModule
+      ... 
+    end
 
 +lib/my_easyloaded_module/child_module/leafy.rb+:
-  class Leafy
-    ...
-  end
+    class Leafy
+      ...
+    end
 
 +lib/my_easyloaded_module/node.rb+:
-  class Node
-    ...
-  end
+    class Node
+      ...
+    end
 
 Would result in the following module/class hierarchy being easyloadable:
-  MyEasyloadedModule
-  MyEasyloadedModule::ChildModule
-  MyEasyloadedModule::ChildModule::Leafy
-  MyEasyloadedModule::Node
+    MyEasyloadedModule
+    MyEasyloadedModule::ChildModule
+    MyEasyloadedModule::ChildModule::Leafy
+    MyEasyloadedModule::Node
 
 
 Easyload Configuration
