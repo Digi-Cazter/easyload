@@ -31,7 +31,7 @@ For example, with a directory structure of:
 
 +lib/my_easyloaded_module.rb+:
   module MyEasyloadedModule
-    import Safis::Toolkit::Easyload
+    import Easyload
   end
 
 +lib/my_easyloaded_module/child_module.rb+:
@@ -58,7 +58,7 @@ Would result in the following module/class hierarchy being easyloadable:
 
 Easyload Configuration
 ----------------------
-When a class or module includes {Easyload Safis::Toolkit::Easyload}, the 
+When a class or module includes {Easyload}, the 
 {EasyloadSingletonExtensions} module is mixed into that class or module's singleton methods, 
 providing the easyload API.  See {EasyloadSingletonExtensions} for a reference of what
 configuration can be performed on an easyloaded class or module.
