@@ -29,22 +29,22 @@ For example, with a directory structure of:
           leafy.rb
         node.rb
 
-+lib/my_easyloaded_module.rb+:
+`lib/my_easyloaded_module.rb`:
     module MyEasyloadedModule
       import Easyload
     end
 
-+lib/my_easyloaded_module/child_module.rb+:
+`lib/my_easyloaded_module/child_module.rb`:
     module ChildModule
       ... 
     end
 
-+lib/my_easyloaded_module/child_module/leafy.rb+:
+`lib/my_easyloaded_module/child_module/leafy.rb`:
     class Leafy
       ...
     end
 
-+lib/my_easyloaded_module/node.rb+:
+`lib/my_easyloaded_module/node.rb`:
     class Node
       ...
     end
