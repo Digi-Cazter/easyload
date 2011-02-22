@@ -66,7 +66,7 @@ module Easyload
         end
       end
       
-      return super(sym)
+      raise NameError("Unknown constant #{self}::#{sym} - tried to easyload it from '#{@easyload_root}/#{path_component}'", sym)
     end
   end
 end

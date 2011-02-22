@@ -1,1 +1,3 @@
 --no-private
+--main README.md
+--plugin easyload
