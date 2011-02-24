@@ -1,7 +1,10 @@
 # -*- encoding: utf-8 -*-
 require 'easyload/helpers'
+require 'monitor'
 
 module Easyload
+  LOAD_LOCK = Monitor.new
+  
   # The singleton methods that are defined for a module that includes {Easyload}.
   module SingletonExtensions
     # The root path that easyload should use when loading a child constant for this module.
@@ -48,10 +51,36 @@ module Easyload
       end
       file_source = File.read(path_to_easyload)
       
+      # Perform the easyload.
+      LOAD_LOCK.synchronize do
+        $parent = self
+        self.module_eval(file_source)
+      end
+      
+      #puts "===="
+      #puts self
+      #puts "===="
+      
       # Perform the easyload with a manual eval.  module_eval doesn't allow for relative constants
       # in the easyloaded file, so we need to manually construct the context to evaluate within.
-      easyload_binding = self.module_eval('::Kernel.binding')
-      easyload_binding.eval(file_source, path_to_easyload)
+      #context_type = self.class == Class ? 'class' : 'module'
+      #begin
+      #  ROOT_BINDING.eval("#{context_type} #{self.name}; #{file_source}; end")
+      #rescue
+      #  puts "#{context_type} #{self.name}; #{file_source}; end"
+      #  raise
+      #end
+      
+      #::Kernel.eval("#{context_type} #{self.name}; #{file_source}; end")
+      #puts "----"
+      #easyload_binding = self.module_eval('::Kernel.binding')
+      #easyload_binding.eval(file_source, path_to_easyload)
+      
+      #self.instance_eval do
+      #  ::Kernel.eval(file_source, nil, path_to_easyload)
+      #end
+      
+      #global_eval("#{context_type} #{self.name}; #{file_source}; end")
       
       # Did we get our target constant?
       if not self.const_defined? sym

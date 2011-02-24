@@ -1,10 +1,6 @@
 # -*- encoding: utf-8 -*-
 require 'easyload'
 
-module NamingExamples
-  Easyload
-end
-
 describe 'Easyload file names' do
   it 'should use a single lowercase name for a single word constant' do
     Examples.easyload_path_component_for_sym(:Single).should == 'single'
