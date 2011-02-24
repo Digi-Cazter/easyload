@@ -1,4 +1,6 @@
 # -*- encoding: utf-8 -*-
+require 'easyload/helpers'
+
 module Easyload
   # The singleton methods that are defined for a module that includes {Easyload}.
   module SingletonExtensions
@@ -39,34 +41,32 @@ module Easyload
       path_component = self.easyload_path_component_for_sym(sym)
       easyload_path = File.join(@easyload_root, "#{path_component}.rb")
       
-      # Search for the file to include
-      $LOAD_PATH.each do |load_root|
-        full_load_path = File.join(load_root, easyload_path)
-        if File.exists? full_load_path
-          self.module_eval(File.read(full_load_path))
-          
-          # Did we get our target constant?
-          if self.const_defined? sym
-            target_const = self.const_get(sym)
-            class << target_const
-              include SingletonExtensions
-            end
-            
-            target_const.easyload_from(File.join(self.easyload_root, path_component))
-            
-            return self.const_get(sym)
-          
-          # Warn but still break the load process.  We don't want to support ambiguous load
-          # paths.
-          else
-            $stderr.puts "Attempted to easyload #{sym} from '#{full_load_path}', but it doesn't appear to exist in that source file."
-          end
-          
-          break
-        end
+      # Do we have a file to easyload?
+      path_to_easyload = Helpers.find_loadable_file(easyload_path)
+      if path_to_easyload.nil?
+        raise NameError.new("Unknown constant #{self}::#{sym} - tried to easyload it from '#{@easyload_root}/#{path_component}'", sym)
+      end
+      file_source = File.read(path_to_easyload)
+      
+      # Perform the easyload with a manual eval.  module_eval doesn't allow for relative constants
+      # in the easyloaded file, so we need to manually construct the context to evaluate within.
+      easyload_binding = self.module_eval('::Kernel.binding')
+      easyload_binding.eval(file_source, path_to_easyload)
+      
+      # Did we get our target constant?
+      if not self.const_defined? sym
+        raise LoadError.new("Attempted to easyload #{sym} from '#{path_to_easyload}', but it doesn't appear to exist in that source file.")
       end
       
-      raise NameError("Unknown constant #{self}::#{sym} - tried to easyload it from '#{@easyload_root}/#{path_component}'", sym)
+      # Make sure that we propagate easyload behaviors
+      target_const = self.const_get(sym)
+      class << target_const
+        include SingletonExtensions
+      end
+    
+      target_const.easyload_from(File.join(self.easyload_root, path_component))
+    
+      return self.const_get(sym)
     end
   end
 end
