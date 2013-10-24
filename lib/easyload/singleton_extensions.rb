@@ -54,7 +54,7 @@ module Easyload
       # Perform the easyload.
       LOAD_LOCK.synchronize do
         $parent = self
-        self.module_eval(file_source)
+        self.module_eval(file_source, path_to_easyload)
       end
       
       #puts "===="
