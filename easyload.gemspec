@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.name        = 'easyload'
   s.version     = Easyload::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Ian MacLeod']
-  s.email       = ['ian@nevir.net']
+  s.authors     = ['Ian MacLeod', 'Donavan White']
+  s.email       = ['ian@nevir.net', 'digi.cazter@gmail.com']
   s.homepage    = ''
   s.summary     = 'A recursive and opinionated alternative to autoload.'
   s.description = 'An alternative to autoload that relies on your project\'s directory structure to determine its module hierarchy, recursively.'
